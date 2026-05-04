@@ -41,7 +41,7 @@
       -webkit-font-smoothing: antialiased; overflow-x: hidden;
     }
 
-    /* ─── GLOBAL NAV — 44px, true black ──────────────────────────── */
+    /* ─── GLOBAL NAV ──────────────────────────────────────────────── */
     .global-nav {
       position: fixed; inset: 0 0 auto;
       height: 44px; background: var(--nav-black);
@@ -57,7 +57,7 @@
       width: 44px; height: 44px;
     }
 
-    /* ─── SUB-NAV — frosted glass, 52px ──────────────────────────── */
+    /* ─── SUB-NAV ─────────────────────────────────────────────────── */
     .sub-nav {
       position: fixed; top: 44px; left: 0; right: 0; height: 52px;
       background: rgba(245,245,247,0.82);
@@ -76,16 +76,13 @@
       font-size: 14px; font-weight: 400; letter-spacing: -0.224px; color: var(--primary);
       text-decoration: none; display: flex; align-items: center; min-height: 44px;
     }
-    .sub-nav-actions {
-      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
-    }
+    .sub-nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .sub-nav-share {
       display: inline-flex; align-items: center; justify-content: center;
       width: 36px; height: 36px;
       background: transparent; color: var(--primary);
       border: 1.5px solid var(--primary);
-      border-radius: var(--r-pill); cursor: pointer;
-      font-size: 13px;
+      border-radius: var(--r-pill); cursor: pointer; font-size: 13px;
       -webkit-tap-highlight-color: transparent;
       transition: background 0.15s, color 0.15s, transform 0.15s;
     }
@@ -95,8 +92,7 @@
       padding: 8px 16px; min-height: 36px;
       background: var(--primary); color: #fff;
       font-family: inherit; font-size: 14px; font-weight: 400; letter-spacing: -0.224px;
-      border-radius: var(--r-pill); border: none; cursor: pointer;
-      white-space: nowrap;
+      border-radius: var(--r-pill); border: none; cursor: pointer; white-space: nowrap;
       -webkit-tap-highlight-color: transparent;
       transition: transform 0.15s, opacity 0.15s;
     }
@@ -115,42 +111,42 @@
     .tile-dark      { background: var(--tile-dark); }
     .tile-dark-2    { background: var(--tile-dark-2); }
 
-    /* ─── iOS WALLET CARD STACKING ────────────────────────────────── */
-    .tile-dark {
-      position: sticky;
-      top: 96px;
-      z-index: 5;
-      box-shadow: 0 -8px 28px rgba(0,0,0,0.28);
-    }
-    .tile-parchment {
-      position: sticky;
-      top: 106px;
-      z-index: 6;
-      box-shadow: 0 -8px 28px rgba(0,0,0,0.13);
-    }
-    .tile-dark-2 {
-      position: sticky;
-      top: 116px;
-      z-index: 7;
-      box-shadow: 0 -8px 28px rgba(0,0,0,0.28);
-    }
-    #location {
-      position: sticky;
-      top: 126px;
-      z-index: 8;
-      box-shadow: 0 -8px 28px rgba(0,0,0,0.13);
-    }
-
-    /* ─── SCROLL ANIMATION — tiles ───────────────────────────────── */
+    /* ─── SCROLL ANIMATION ────────────────────────────────────────── */
     .tile-scroll-hidden {
       opacity: 0;
       transform: translateY(28px) scale(0.98);
       transition: opacity 0.65s cubic-bezier(.22,.68,0,1.1),
                   transform 0.65s cubic-bezier(.22,.68,0,1.1);
     }
-    .tile-scroll-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+    .tile-scroll-visible { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* ─── QR FLIP AVATAR ──────────────────────────────────────────── */
+    .avatar-flip-wrap {
+      width: 120px; height: 120px;
+      perspective: 600px;
+      margin-bottom: 24px;
+      flex-shrink: 0;
+      cursor: default;
+    }
+    .avatar-flip-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(.22,.68,0,1.1);
+    }
+    .avatar-flip-inner.flipped { transform: rotateY(180deg); }
+    .avatar-front, .avatar-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .avatar-back {
+      transform: rotateY(180deg);
+      background: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-product);
+      overflow: hidden;
     }
 
     /* ─── AVATAR ──────────────────────────────────────────────────── */
@@ -158,7 +154,7 @@
       width: 120px; height: 120px; border-radius: 50%;
       background: var(--parchment); flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow-product); overflow: hidden; margin-bottom: 24px;
+      box-shadow: var(--shadow-product); overflow: hidden;
       transform-style: preserve-3d;
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
       cursor: default;
@@ -183,28 +179,24 @@
       color: var(--ink-80); margin-bottom: 16px;
     }
 
-    /* ─── LIVE STATUS INDICATOR ───────────────────────────────────── */
+    /* ─── LIVE STATUS ─────────────────────────────────────────────── */
     .live-status {
       display: inline-flex; align-items: center; gap: 7px;
-      padding: 6px 14px;
-      background: var(--parchment);
+      padding: 6px 14px; background: var(--parchment);
       border-radius: var(--r-pill);
-      font-size: 13px; font-weight: 400; letter-spacing: -0.12px;
-      color: var(--ink-80);
-      margin-bottom: 28px;
-      border: 1px solid var(--hairline);
+      font-size: 13px; font-weight: 400; letter-spacing: -0.12px; color: var(--ink-80);
+      margin-bottom: 28px; border: 1px solid var(--hairline);
       transition: background 0.3s;
     }
     .live-status-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      flex-shrink: 0;
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
       transition: background 0.4s;
     }
     .live-status-dot.online  { background: #34c759; box-shadow: 0 0 0 2px rgba(52,199,89,0.22); }
     .live-status-dot.offline { background: #aeaeb2; }
     .live-status-text { transition: color 0.3s; }
 
-    /* ─── BUTTONS — spring-loaded ─────────────────────────────────── */
+    /* ─── BUTTONS ─────────────────────────────────────────────────── */
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 13px 22px; min-height: 44px;
@@ -212,10 +204,9 @@
       font-family: inherit; font-size: 17px; font-weight: 400; letter-spacing: -0.374px;
       border-radius: var(--r-pill); border: none; cursor: pointer; text-decoration: none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s;
+      transition: transform 0.15s, opacity 0.15s;
     }
-    .btn-primary:active { transform: scale(0.94); }
-
+    .btn-primary:active { transform: scale(0.95); }
     .btn-ghost {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 12px 22px; min-height: 44px;
@@ -224,16 +215,14 @@
       border-radius: var(--r-pill); border: 1px solid var(--primary);
       cursor: pointer; text-decoration: none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s;
+      transition: transform 0.15s, opacity 0.15s;
     }
-    .btn-ghost:active { transform: scale(0.94); opacity: 0.75; }
-
+    .btn-ghost:active { transform: scale(0.95); opacity: 0.75; }
     .cta-row {
       display: flex; flex-direction: column; gap: 12px;
       width: 100%; max-width: 340px;
     }
-    .cta-row .btn-primary,
-    .cta-row .btn-ghost { width: 100%; }
+    .cta-row .btn-primary, .cta-row .btn-ghost { width: 100%; }
 
     /* ─── TILE TYPE ───────────────────────────────────────────────── */
     .tile-h2 {
@@ -251,13 +240,8 @@
       color: var(--ink-80); max-width: 540px;
     }
     .tile-body-dark { color: var(--muted-dark); }
-    .text-link-dark {
-      display: inline-flex; align-items: center; gap: 4px;
-      color: var(--primary-dark); font-size: 17px; text-decoration: none;
-      min-height: 44px; margin-top: 16px;
-    }
 
-    /* ─── CONTACT ROWS — spring-loaded ───────────────────────────── */
+    /* ─── CONTACT ROWS ────────────────────────────────────────────── */
     .contact-list {
       width: 100%; max-width: 560px;
       display: flex; flex-direction: column; gap: 2px; margin-top: 24px;
@@ -268,9 +252,9 @@
       background: var(--canvas); border: 1px solid var(--hairline);
       border-radius: var(--r-lg); text-decoration: none; gap: 12px;
       -webkit-tap-highlight-color: transparent;
-      transition: background 0.12s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: background 0.12s;
     }
-    .contact-row:active { background: var(--parchment); transform: scale(0.94); }
+    .contact-row:active { background: var(--parchment); }
     .contact-row-left { display: flex; align-items: center; gap: 14px; }
     .contact-icon {
       width: 40px; height: 40px; border-radius: var(--r-sm);
@@ -278,16 +262,11 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; color: var(--ink);
     }
-    .contact-label {
-      font-size: 13px; font-weight: 600; letter-spacing: -0.12px; color: var(--ink-48);
-    }
-    .contact-value {
-      font-size: 15px; font-weight: 400; letter-spacing: -0.374px; color: var(--ink);
-      margin-top: 2px;
-    }
+    .contact-label { font-size: 13px; font-weight: 600; letter-spacing: -0.12px; color: var(--ink-48); }
+    .contact-value { font-size: 15px; font-weight: 400; letter-spacing: -0.374px; color: var(--ink); margin-top: 2px; }
     .contact-chevron { font-size: 11px; color: var(--ink-48); flex-shrink: 0; }
 
-    /* ─── SOCIAL GRID — spring-loaded ────────────────────────────── */
+    /* ─── SOCIAL GRID ─────────────────────────────────────────────── */
     .social-grid {
       width: 100%; max-width: 400px;
       display: grid; grid-template-columns: repeat(4, 1fr);
@@ -301,10 +280,10 @@
       color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 400;
       letter-spacing: -0.12px; text-decoration: none;
       -webkit-tap-highlight-color: transparent;
-      transition: background 0.12s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: background 0.12s, transform 0.12s;
     }
     .social-chip i { font-size: 20px; color: rgba(255,255,255,0.85); }
-    .social-chip:active { background: rgba(255,255,255,0.14); transform: scale(0.94); }
+    .social-chip:active { background: rgba(255,255,255,0.14); transform: scale(0.95); }
 
     /* ─── MAP ─────────────────────────────────────────────────────── */
     .map-wrap {
@@ -328,14 +307,10 @@
     .footer {
       background: var(--parchment);
       padding: 40px 16px calc(40px + env(safe-area-inset-bottom));
-      position: relative; z-index: 9;
     }
     .footer-divider { height: 1px; background: var(--hairline); margin-bottom: 28px; }
     .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 16px; }
-    .footer-col-title {
-      font-size: 14px; font-weight: 600; letter-spacing: -0.224px;
-      color: var(--ink); margin-bottom: 8px;
-    }
+    .footer-col-title { font-size: 14px; font-weight: 600; letter-spacing: -0.224px; color: var(--ink); margin-bottom: 8px; }
     .footer-link {
       display: block; font-size: 15px; font-weight: 400;
       line-height: 2.2; letter-spacing: -0.224px;
@@ -357,10 +332,7 @@
       z-index: 99;
     }
     .sticky-text { min-width: 0; }
-    .sticky-name {
-      font-size: 14px; font-weight: 600; letter-spacing: -0.224px; color: var(--ink);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
+    .sticky-name { font-size: 14px; font-weight: 600; letter-spacing: -0.224px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sticky-role { font-size: 12px; letter-spacing: -0.12px; color: var(--ink-48); }
     .sticky-bar .btn-primary { font-size: 15px; padding: 11px 18px; flex-shrink: 0; }
 
@@ -386,21 +358,14 @@
     .d1{animation-delay:.05s} .d2{animation-delay:.15s} .d3{animation-delay:.25s}
     .d4{animation-delay:.38s} .d5{animation-delay:.50s} .d6{animation-delay:.62s}
 
-    /* ─── CHATBOT FAB ─────────────────────────────────────────────── */
+    /* ─── CHATBOT ─────────────────────────────────────────────────── */
     .chat-fab {
-      position: fixed;
-      right: 16px;
+      position: fixed; right: 16px;
       bottom: calc(76px + env(safe-area-inset-bottom));
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 4px 20px rgba(0, 102, 204, 0.40);
-      z-index: 110;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--primary); color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      box-shadow: 0 4px 20px rgba(0,102,204,0.40); z-index: 110;
       -webkit-tap-highlight-color: transparent;
       transition: transform 0.2s cubic-bezier(.22,.68,0,1.2), box-shadow 0.2s;
     }
@@ -423,51 +388,24 @@
     }
     .chat-badge.hidden { opacity: 0; transform: scale(0); }
 
-    /* ─── CHATBOT WINDOW — fluid blur + scale open ────────────────── */
     .chat-window {
-      position: fixed;
-      right: 16px;
+      position: fixed; right: 16px;
       bottom: calc(140px + env(safe-area-inset-bottom));
-      width: calc(100vw - 32px);
-      max-width: 360px;
-      height: 500px;
-      max-height: calc(100vh - 200px);
-      background: var(--canvas);
-      border-radius: var(--r-lg);
+      width: calc(100vw - 32px); max-width: 360px;
+      height: 500px; max-height: calc(100vh - 200px);
+      background: var(--canvas); border-radius: var(--r-lg);
       box-shadow: var(--shadow-product), 0 0 0 1px rgba(0,0,0,0.06);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      z-index: 109;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(40px) scale(0.9);
-      filter: blur(10px);
+      display: flex; flex-direction: column; overflow: hidden;
+      z-index: 109; opacity: 0; pointer-events: none;
+      transform: translateY(16px) scale(0.97);
       transform-origin: bottom right;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.25s cubic-bezier(.22,.68,0,1.1), transform 0.25s cubic-bezier(.22,.68,0,1.1);
     }
-    .chat-window.is-open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
-
-    /* ─── DRAG HANDLE (mobile only) ───────────────────────────────── */
-    .chat-drag-handle {
-      display: none;
-      width: 36px; height: 4px;
-      background: rgba(0,0,0,0.18);
-      border-radius: 2px;
-      margin: 10px auto 0;
-      flex-shrink: 0;
-    }
+    .chat-window.is-open { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 
     .chat-header {
       display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px;
-      background: var(--primary);
-      flex-shrink: 0;
+      padding: 14px 16px; background: var(--primary); flex-shrink: 0;
     }
     .chat-header-avatar {
       width: 36px; height: 36px; border-radius: 50%;
@@ -476,10 +414,7 @@
       font-size: 15px; color: #fff; flex-shrink: 0;
     }
     .chat-header-info { flex: 1; min-width: 0; }
-    .chat-header-name {
-      font-size: 14px; font-weight: 600; color: #fff;
-      letter-spacing: -0.224px; line-height: 1.2;
-    }
+    .chat-header-name { font-size: 14px; font-weight: 600; color: #fff; letter-spacing: -0.224px; line-height: 1.2; }
     .chat-header-status {
       font-size: 11px; color: rgba(255,255,255,0.72);
       display: flex; align-items: center; gap: 4px; margin-top: 2px;
@@ -500,58 +435,41 @@
     .chat-header-close:active { background: rgba(255,255,255,0.28); }
 
     .chat-messages {
-      flex: 1;
-      overflow-y: auto;
+      flex: 1; overflow-y: auto;
       padding: 16px 14px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      scroll-behavior: smooth;
-      background: var(--parchment);
+      display: flex; flex-direction: column; gap: 10px;
+      scroll-behavior: smooth; background: var(--parchment);
     }
     .chat-messages::-webkit-scrollbar { width: 0; }
 
     .chat-bubble {
-      max-width: 82%;
-      padding: 10px 14px;
-      border-radius: 18px;
-      font-size: 14px;
-      line-height: 1.45;
-      letter-spacing: -0.12px;
+      max-width: 82%; padding: 10px 14px; border-radius: 18px;
+      font-size: 14px; line-height: 1.45; letter-spacing: -0.12px;
       animation: bubbleIn 0.28s cubic-bezier(.22,.68,0,1.2) both;
     }
     @keyframes bubbleIn {
       from { opacity: 0; transform: translateY(8px) scale(0.95); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
-
     .chat-bubble-bot {
-      background: var(--canvas);
-      color: var(--ink);
+      background: var(--canvas); color: var(--ink);
       border-bottom-left-radius: 6px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.08);
       align-self: flex-start;
     }
-
     .chat-bubble-user {
-      background: var(--primary);
-      color: #fff;
-      border-bottom-right-radius: 6px;
-      align-self: flex-end;
+      background: var(--primary); color: #fff;
+      border-bottom-right-radius: 6px; align-self: flex-end;
     }
-
     .chat-typing {
       display: flex; align-items: center; gap: 4px;
-      padding: 10px 14px;
-      background: var(--canvas);
+      padding: 10px 14px; background: var(--canvas);
       border-radius: 18px; border-bottom-left-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-      align-self: flex-start;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08); align-self: flex-start;
       animation: bubbleIn 0.28s cubic-bezier(.22,.68,0,1.2) both;
     }
     .chat-typing span {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--ink-48);
+      width: 7px; height: 7px; border-radius: 50%; background: var(--ink-48);
       animation: typingDot 1.2s infinite ease-in-out;
     }
     .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
@@ -560,88 +478,48 @@
       0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
       30% { transform: translateY(-5px); opacity: 1; }
     }
-
     .chat-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      padding: 2px 0 4px;
-      align-self: flex-start;
-      max-width: 100%;
+      display: flex; flex-wrap: wrap; gap: 7px;
+      padding: 2px 0 4px; align-self: flex-start; max-width: 100%;
       animation: bubbleIn 0.32s cubic-bezier(.22,.68,0,1.2) both;
       animation-delay: 0.15s;
     }
     .chat-chip {
-      padding: 7px 13px;
-      border-radius: var(--r-pill);
-      border: 1.5px solid var(--primary);
-      background: transparent;
-      color: var(--primary);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: -0.12px;
-      cursor: pointer;
+      padding: 7px 13px; border-radius: var(--r-pill);
+      border: 1.5px solid var(--primary); background: transparent;
+      color: var(--primary); font-family: inherit; font-size: 13px;
+      font-weight: 400; letter-spacing: -0.12px; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       transition: background 0.12s, color 0.12s, transform 0.12s;
     }
     .chat-chip:active { transform: scale(0.95); }
     .chat-chip:hover  { background: var(--primary); color: #fff; }
 
-    .chat-footer {
-      flex-shrink: 0;
-      background: var(--canvas);
-      border-top: 1px solid var(--hairline);
-    }
-
-    .chat-input-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-    }
+    .chat-footer { flex-shrink: 0; background: var(--canvas); border-top: 1px solid var(--hairline); }
+    .chat-input-row { display: flex; align-items: center; gap: 8px; padding: 10px 12px; }
     .chat-input {
-      flex: 1;
-      padding: 9px 14px;
-      border: 1.5px solid var(--hairline);
-      border-radius: var(--r-pill);
-      background: var(--parchment);
-      font-family: inherit;
-      font-size: 14px;
-      letter-spacing: -0.12px;
-      color: var(--ink);
-      outline: none;
-      transition: border-color 0.15s;
-      min-width: 0;
+      flex: 1; padding: 9px 14px;
+      border: 1.5px solid var(--hairline); border-radius: var(--r-pill);
+      background: var(--parchment); font-family: inherit; font-size: 14px;
+      letter-spacing: -0.12px; color: var(--ink); outline: none;
+      transition: border-color 0.15s; min-width: 0;
     }
     .chat-input:focus { border-color: var(--primary); }
     .chat-input::placeholder { color: var(--ink-48); }
     .chat-send {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--primary);
-      border: none;
-      color: #fff;
-      font-size: 14px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--primary); border: none; color: #fff; font-size: 14px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
+      cursor: pointer; flex-shrink: 0;
       -webkit-tap-highlight-color: transparent;
       transition: transform 0.12s, opacity 0.12s;
     }
     .chat-send:active { transform: scale(0.92); }
     .chat-send:disabled { opacity: 0.4; cursor: default; }
-
     .chat-call-fallback {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 16px 10px;
-      font-size: 12px;
-      color: var(--ink-48);
-      letter-spacing: -0.12px;
-      text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 8px 16px 10px; font-size: 12px; color: var(--ink-48);
+      letter-spacing: -0.12px; text-decoration: none;
       border-top: 1px solid var(--hairline);
       transition: color 0.12s;
       -webkit-tap-highlight-color: transparent;
@@ -649,9 +527,14 @@
     .chat-call-fallback i { font-size: 11px; }
     .chat-call-fallback:hover { color: var(--primary); }
 
-    /* ═══════════════════════════════════════════════════════════════
-       SCALE UP — mobile-first breakpoints
-    ═══════════════════════════════════════════════════════════════ */
+    /* ─── QR HINT LABEL ───────────────────────────────────────────── */
+    .qr-hint {
+      font-size: 11px; color: var(--ink-48); letter-spacing: -0.12px;
+      margin-top: -14px; margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.65s 0.6s cubic-bezier(.22,.68,0,1.1) both;
+    }
+
+    /* ═══ BREAKPOINTS ════════════════════════════════════════════════ */
     @media (min-width: 480px) {
       .tile { padding: 56px 22px; }
       .hero-h1 { font-size: 40px; }
@@ -668,6 +551,7 @@
       .hero-sub { font-size: 21px; }
       .tile-h2  { font-size: 40px; }
       .tile-lead { font-size: 21px; }
+      .avatar-flip-wrap { width: 140px; height: 140px; }
       .avatar { width: 140px; height: 140px; }
       .avatar-mono { font-size: 48px; }
       .social-grid { max-width: 480px; gap: 12px; }
@@ -678,6 +562,7 @@
       .tile { padding: 80px 32px; }
       .hero-h1 { font-size: 56px; }
       .tile-h2 { font-size: 48px; }
+      .avatar-flip-wrap { width: 160px; height: 160px; }
       .avatar { width: 160px; height: 160px; }
       .avatar-mono { font-size: 54px; }
       .social-grid { max-width: 540px; gap: 14px; }
@@ -689,38 +574,6 @@
       .contact-list {
         display: grid; grid-template-columns: 1fr 1fr;
         max-width: 720px; gap: 10px;
-      }
-    }
-
-    /* ─── NATIVE iOS BOTTOM SHEET (mobile only) ───────────────────── */
-    @media (max-width: 639px) {
-      .chat-drag-handle {
-        display: block;
-      }
-      .chat-window {
-        right: 0;
-        left: 0;
-        bottom: 0;
-        width: 100vw;
-        max-width: 100vw;
-        height: 75vh;
-        max-height: 75vh;
-        border-radius: 24px 24px 0 0;
-        transform-origin: bottom center;
-        /* Pure slide-up — no blur on mobile for perf */
-        transform: translateY(100%);
-        filter: none;
-        opacity: 1;
-        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .chat-window.is-open {
-        transform: translateY(0);
-        filter: none;
-        opacity: 1;
-      }
-      .chat-call-fallback {
-        padding-bottom: calc(10px + env(safe-area-inset-bottom));
       }
     }
   </style>
@@ -763,9 +616,24 @@
 
     <!-- TILE 1 — HERO -->
     <section class="tile tile-light" style="padding-top:40px; padding-bottom:56px;">
-      <div class="avatar fu d1" id="heroAvatar">
-        <span class="avatar-mono">AM</span>
+
+      <!-- QR FLIP AVATAR -->
+      <div class="avatar-flip-wrap fu d1" id="avatarFlipWrap">
+        <div class="avatar-flip-inner" id="avatarFlipInner">
+          <!-- FRONT -->
+          <div class="avatar avatar-front" id="heroAvatar">
+            <span class="avatar-mono">AM</span>
+          </div>
+          <!-- BACK (QR) -->
+          <div class="avatar avatar-back" id="avatarBack">
+            <img id="qrImg" src="" alt="QR Code"
+              style="width:88%;height:88%;border-radius:6px;display:block;object-fit:contain;" />
+          </div>
+        </div>
       </div>
+
+      <p class="qr-hint">Double-tap to share via QR</p>
+
       <p class="hero-eyebrow fu d2">Private Equity &amp; Strategy</p>
       <h1 class="hero-h1 fu d3">Alexandra Morgan</h1>
       <p class="hero-sub fu d4" style="margin-bottom:28px;">Managing Director, Axiom Ventures.</p>
@@ -788,7 +656,7 @@
         Two decades building the future of private equity.
       </p>
       <p class="tile-body tile-body-dark">
-        Alexandra leads Axiom Ventures' portfolio strategy across emerging markets - focused on high-conviction investments at the intersection of technology and enterprise transformation.
+        Alexandra leads Axiom Ventures' portfolio strategy across emerging markets — focused on high-conviction investments at the intersection of technology and enterprise transformation.
       </p>
     </section>
 
@@ -941,23 +809,16 @@
 
   <div id="toast" role="status" aria-live="polite">Contact saved to your device</div>
 
-  <!-- CHATBOT FAB -->
+  <!-- CHATBOT -->
   <button class="chat-fab" id="chatFab" aria-label="Open chat" onclick="toggleChat()">
     <i class="fa-solid fa-message fab-icon-open"></i>
     <i class="fa-solid fa-xmark fab-icon-close"></i>
     <span class="chat-badge" id="chatBadge">1</span>
   </button>
 
-  <!-- CHATBOT WINDOW -->
   <div class="chat-window" id="chatWindow" role="dialog" aria-label="Support chat">
-
-    <!-- Drag handle pill — visible on mobile only -->
-    <div class="chat-drag-handle" aria-hidden="true"></div>
-
     <div class="chat-header">
-      <div class="chat-header-avatar">
-        <i class="fa-solid fa-bolt"></i>
-      </div>
+      <div class="chat-header-avatar"><i class="fa-solid fa-bolt"></i></div>
       <div class="chat-header-info">
         <div class="chat-header-name">Axiom Assistant</div>
         <div class="chat-header-status">Online now</div>
@@ -966,17 +827,12 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
-
     <div class="chat-messages" id="chatMessages"></div>
-
     <div class="chat-footer">
       <div class="chat-input-row" id="chatInputRow" style="display:none;">
         <input
-          type="text"
-          class="chat-input"
-          id="chatInput"
-          placeholder="Type your message…"
-          maxlength="300"
+          type="text" class="chat-input" id="chatInput"
+          placeholder="Type your message…" maxlength="300"
           onkeydown="if(event.key==='Enter') sendCustomMessage()"
           aria-label="Your message"
         />
@@ -1035,7 +891,7 @@
     }
 
     /* ══════════════════════════════════════════════════════════════
-       Share API
+       Share
     ══════════════════════════════════════════════════════════════ */
     async function shareCard() {
       const shareData = {
@@ -1052,19 +908,61 @@
     }
 
     /* ══════════════════════════════════════════════════════════════
-       3D Tilt Effect on Avatar (desktop mouse)
+       QR FLIP — double-tap / double-click avatar
+    ══════════════════════════════════════════════════════════════ */
+    (function initAvatarQrFlip() {
+      const wrap   = document.getElementById("avatarFlipWrap");
+      const inner  = document.getElementById("avatarFlipInner");
+      const qrImg  = document.getElementById("qrImg");
+      let lastTap  = 0;
+      let qrLoaded = false;
+
+      function loadQr() {
+        if (qrLoaded) return;
+        qrLoaded = true;
+        const url = encodeURIComponent(window.location.href);
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}&margin=8&color=1d1d1f&bgcolor=ffffff`;
+      }
+
+      function flip() {
+        const isFlipped = inner.classList.toggle("flipped");
+        if (isFlipped) {
+          loadQr();
+          showToast("Scan to share this card");
+        }
+        if (navigator.vibrate) navigator.vibrate(isFlipped ? [25, 15, 25] : 20);
+      }
+
+      /* Desktop — double-click */
+      wrap.addEventListener("dblclick", flip);
+
+      /* Mobile — double-tap */
+      wrap.addEventListener("touchend", (e) => {
+        const now = Date.now();
+        if (now - lastTap < 300) {
+          e.preventDefault();
+          flip();
+        }
+        lastTap = now;
+      });
+    })();
+
+    /* ══════════════════════════════════════════════════════════════
+       3D Tilt on Avatar (front face only)
     ══════════════════════════════════════════════════════════════ */
     (function initAvatarTilt() {
       const avatar = document.getElementById("heroAvatar");
+      const inner  = document.getElementById("avatarFlipInner");
       if (!avatar) return;
       const MAX_TILT = 15;
 
       avatar.addEventListener("mousemove", (e) => {
-        const rect   = avatar.getBoundingClientRect();
-        const cx     = rect.left + rect.width  / 2;
-        const cy     = rect.top  + rect.height / 2;
-        const dx     = (e.clientX - cx) / (rect.width  / 2);
-        const dy     = (e.clientY - cy) / (rect.height / 2);
+        if (inner.classList.contains("flipped")) return;
+        const rect    = avatar.getBoundingClientRect();
+        const cx      = rect.left + rect.width  / 2;
+        const cy      = rect.top  + rect.height / 2;
+        const dx      = (e.clientX - cx) / (rect.width  / 2);
+        const dy      = (e.clientY - cy) / (rect.height / 2);
         const rotateY =  dx * MAX_TILT;
         const rotateX = -dy * MAX_TILT;
         avatar.style.transition = "transform 0.08s ease-out, box-shadow 0.08s ease-out";
@@ -1080,53 +978,11 @@
     })();
 
     /* ══════════════════════════════════════════════════════════════
-       Device Gyroscope — reactive avatar shadow (mobile)
-    ══════════════════════════════════════════════════════════════ */
-    (function initGyroscope() {
-      const avatar = document.getElementById("heroAvatar");
-      if (!avatar) return;
-
-      function handleOrientation(e) {
-        /* beta  = front/back tilt (-180 to 180), gamma = left/right (-90 to 90) */
-        const beta  = Math.min(Math.max(e.beta  ?? 0, -45), 45);
-        const gamma = Math.min(Math.max(e.gamma ?? 0, -45), 45);
-
-        /* Map tilt to shadow offset, max 15px spread */
-        const shadowX = (gamma / 45) * 15;
-        const shadowY = (beta  / 45) * 8;
-        const spread  = Math.abs(shadowX * 0.6) + Math.abs(shadowY * 0.6) + 10;
-
-        avatar.style.transition = "box-shadow 0.1s ease-out";
-        avatar.style.boxShadow  =
-          `${shadowX}px ${shadowY}px ${spread}px rgba(0,0,0,0.30)`;
-      }
-
-      if (typeof DeviceOrientationEvent !== "undefined") {
-        /* iOS 13+ requires explicit permission via user gesture */
-        if (typeof DeviceOrientationEvent.requestPermission === "function") {
-          document.addEventListener("touchstart", function requestOnce() {
-            DeviceOrientationEvent.requestPermission()
-              .then(state => {
-                if (state === "granted") {
-                  window.addEventListener("deviceorientation", handleOrientation, true);
-                }
-              })
-              .catch(() => {});
-          }, { once: true });
-        } else {
-          /* Android + older iOS — no permission needed */
-          window.addEventListener("deviceorientation", handleOrientation, true);
-        }
-      }
-    })();
-
-    /* ══════════════════════════════════════════════════════════════
-       Scroll-Triggered Intersection Observer
+       Scroll Animations
     ══════════════════════════════════════════════════════════════ */
     (function initScrollAnimations() {
       const tiles = document.querySelectorAll(".tile:not(:first-child)");
       tiles.forEach(tile => tile.classList.add("tile-scroll-hidden"));
-
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1136,19 +992,18 @@
           }
         });
       }, { threshold: 0.1 });
-
       tiles.forEach(tile => observer.observe(tile));
     })();
 
     /* ══════════════════════════════════════════════════════════════
-       Chatbot Logic
+       Chatbot
     ══════════════════════════════════════════════════════════════ */
     const WHATSAPP_NUMBER = "919999999999";
 
     const PRESETS = [
       {
         label: "What services do you offer?",
-        answer: "Axiom Ventures provides end-to-end private equity advisory, growth-stage investments, strategic portfolio management, and board-level consulting - primarily in technology, fintech, and enterprise transformation across emerging markets."
+        answer: "Axiom Ventures provides end-to-end private equity advisory, growth-stage investments, strategic portfolio management, and board-level consulting — primarily in technology, fintech, and enterprise transformation across emerging markets."
       },
       {
         label: "What is your investment focus?",
@@ -1156,12 +1011,9 @@
       },
       {
         label: "How can I schedule a meeting?",
-        answer: "You can book a call directly via Calendly - tap the Schedule link in the Connect section above, or reach out on WhatsApp and Alexandra's team will arrange a time that works for you."
+        answer: "You can book a call directly via Calendly — tap the Schedule link in the Connect section above, or reach out on WhatsApp and Alexandra's team will arrange a time that works for you."
       },
-      {
-        label: "I have another question",
-        answer: null
-      }
+      { label: "I have another question", answer: null }
     ];
 
     let chatInitialised = false;
@@ -1177,10 +1029,7 @@
       fab.classList.toggle("is-open", chatOpen);
       if (chatOpen) {
         badge.classList.add("hidden");
-        if (!chatInitialised) {
-          chatInitialised = true;
-          initChat();
-        }
+        if (!chatInitialised) { chatInitialised = true; initChat(); }
       }
     }
 
@@ -1234,7 +1083,6 @@
       const input = document.getElementById("chatInput");
       const msg   = input.value.trim();
       if (!msg) return;
-
       if (/magic/i.test(msg)) {
         input.value = "";
         appendUserBubble(msg);
@@ -1251,9 +1099,8 @@
         }, 700);
         return;
       }
-
-      input.value      = "";
-      input.disabled   = true;
+      input.value = "";
+      input.disabled = true;
       document.getElementById("chatSendBtn").disabled = true;
       appendUserBubble(msg);
       hideInputRow();
@@ -1270,8 +1117,8 @@
 
     function appendBotBubble(text) {
       const msgs = document.getElementById("chatMessages");
-      const el   = document.createElement("div");
-      el.className   = "chat-bubble chat-bubble-bot";
+      const el = document.createElement("div");
+      el.className = "chat-bubble chat-bubble-bot";
       el.textContent = text;
       msgs.appendChild(el);
       scrollChat();
@@ -1280,8 +1127,8 @@
 
     function appendUserBubble(text) {
       const msgs = document.getElementById("chatMessages");
-      const el   = document.createElement("div");
-      el.className   = "chat-bubble chat-bubble-user";
+      const el = document.createElement("div");
+      el.className = "chat-bubble chat-bubble-user";
       el.textContent = text;
       msgs.appendChild(el);
       scrollChat();
@@ -1290,9 +1137,9 @@
 
     function appendTyping() {
       const msgs = document.getElementById("chatMessages");
-      const el   = document.createElement("div");
+      const el = document.createElement("div");
       el.className = "chat-typing";
-      el.innerHTML  = "<span></span><span></span><span></span>";
+      el.innerHTML = "<span></span><span></span><span></span>";
       msgs.appendChild(el);
       scrollChat();
       return el;
