@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Alexandra Morgan - Axiom Ventures</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────────────────────── */
+    :root {
+      --primary:        #0066cc;
+      --primary-focus:  #0071e3;
+      --primary-dark:   #2997ff;
+      --canvas:         #ffffff;
+      --parchment:      #f5f5f7;
+      --tile-dark:      #272729;
+      --tile-dark-2:    #2a2a2c;
+      --nav-black:      #000000;
+      --ink:            #1d1d1f;
+      --ink-80:         #333333;
+      --ink-48:         #7a7a7a;
+      --on-dark:        #ffffff;
+      --muted-dark:     #cccccc;
+      --hairline:       #e0e0e0;
+      --r-sm: 8px; --r-md: 11px; --r-lg: 18px; --r-pill: 9999px;
+      --shadow-product: rgba(0,0,0,0.22) 3px 5px 30px 0;
+    }
+
+    /* ─── RESET ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 17px; font-weight: 400; line-height: 1.47; letter-spacing: -0.374px;
+      color: var(--ink); background: var(--parchment);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+
+    /* ─── GLOBAL NAV — 44px, true black ──────────────────────────── */
+    .global-nav {
+      position: fixed; inset: 0 0 auto;
+      height: 44px; background: var(--nav-black);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 max(16px, env(safe-area-inset-left));
+      z-index: 100;
+    }
+    .nav-logo { color: rgba(255,255,255,0.85); font-size: 20px; line-height: 1; text-decoration: none; }
+    .nav-actions { display: flex; align-items: center; gap: 4px; }
+    .nav-actions a {
+      color: rgba(255,255,255,0.75); font-size: 14px; text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+    }
+
+    /* ─── SUB-NAV — frosted glass, 52px ──────────────────────────── */
+    .sub-nav {
+      position: fixed; top: 44px; left: 0; right: 0; height: 52px;
+      background: rgba(245,245,247,0.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; z-index: 99;
+    }
+    .sub-nav-title {
+      font-size: 17px; font-weight: 600; letter-spacing: -0.374px; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50%;
+    }
+    .sub-nav-links { display: none; align-items: center; gap: 20px; }
+    .sub-nav-link {
+      font-size: 14px; font-weight: 400; letter-spacing: -0.224px; color: var(--primary);
+      text-decoration: none; display: flex; align-items: center; min-height: 44px;
+    }
+    .sub-nav-actions {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .sub-nav-share {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: transparent; color: var(--primary);
+      border: 1.5px solid var(--primary);
+      border-radius: var(--r-pill); cursor: pointer;
+      font-size: 13px;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+    }
+    .sub-nav-share:active { transform: scale(0.92); background: var(--primary); color: #fff; }
+    .sub-nav-save {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; min-height: 36px;
+      background: var(--primary); color: #fff;
+      font-family: inherit; font-size: 14px; font-weight: 400; letter-spacing: -0.224px;
+      border-radius: var(--r-pill); border: none; cursor: pointer;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .sub-nav-save:active { transform: scale(0.95); }
+
+    /* ─── PAGE OFFSET ─────────────────────────────────────────────── */
+    .page { padding-top: 96px; }
+
+    /* ─── TILES ───────────────────────────────────────────────────── */
+    .tile {
+      width: 100%; padding: 48px 16px;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .tile-light     { background: var(--canvas); }
+    .tile-parchment { background: var(--parchment); }
+    .tile-dark      { background: var(--tile-dark); }
+    .tile-dark-2    { background: var(--tile-dark-2); }
+
+    /* ─── iOS WALLET CARD STACKING ────────────────────────────────── */
+    .tile-dark {
+      position: sticky;
+      top: 96px;
+      z-index: 5;
+      box-shadow: 0 -8px 28px rgba(0,0,0,0.28);
+    }
+    .tile-parchment {
+      position: sticky;
+      top: 106px;
+      z-index: 6;
+      box-shadow: 0 -8px 28px rgba(0,0,0,0.13);
+    }
+    .tile-dark-2 {
+      position: sticky;
+      top: 116px;
+      z-index: 7;
+      box-shadow: 0 -8px 28px rgba(0,0,0,0.28);
+    }
+    #location {
+      position: sticky;
+      top: 126px;
+      z-index: 8;
+      box-shadow: 0 -8px 28px rgba(0,0,0,0.13);
+    }
+
+    /* ─── SCROLL ANIMATION — tiles ───────────────────────────────── */
+    .tile-scroll-hidden {
+      opacity: 0;
+      transform: translateY(28px) scale(0.98);
+      transition: opacity 0.65s cubic-bezier(.22,.68,0,1.1),
+                  transform 0.65s cubic-bezier(.22,.68,0,1.1);
+    }
+    .tile-scroll-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ─── AVATAR ──────────────────────────────────────────────────── */
+    .avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: var(--parchment); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-product); overflow: hidden; margin-bottom: 24px;
+      transform-style: preserve-3d;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+      cursor: default;
+      will-change: transform;
+    }
+    .avatar-mono {
+      font-size: 40px; font-weight: 300; color: var(--ink-80);
+      letter-spacing: -2px; line-height: 1;
+    }
+
+    /* ─── HERO TYPE ───────────────────────────────────────────────── */
+    .hero-eyebrow {
+      font-size: 17px; font-weight: 600; letter-spacing: 0.231px;
+      color: var(--ink); margin-bottom: 8px;
+    }
+    .hero-h1 {
+      font-size: 34px; font-weight: 600; line-height: 1.07; letter-spacing: -0.28px;
+      color: var(--ink); margin-bottom: 10px;
+    }
+    .hero-sub {
+      font-size: 19px; font-weight: 400; line-height: 1.21; letter-spacing: 0.196px;
+      color: var(--ink-80); margin-bottom: 16px;
+    }
+
+    /* ─── LIVE STATUS INDICATOR ───────────────────────────────────── */
+    .live-status {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px;
+      background: var(--parchment);
+      border-radius: var(--r-pill);
+      font-size: 13px; font-weight: 400; letter-spacing: -0.12px;
+      color: var(--ink-80);
+      margin-bottom: 28px;
+      border: 1px solid var(--hairline);
+      transition: background 0.3s;
+    }
+    .live-status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0;
+      transition: background 0.4s;
+    }
+    .live-status-dot.online  { background: #34c759; box-shadow: 0 0 0 2px rgba(52,199,89,0.22); }
+    .live-status-dot.offline { background: #aeaeb2; }
+    .live-status-text { transition: color 0.3s; }
+
+    /* ─── BUTTONS — spring-loaded ─────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 22px; min-height: 44px;
+      background: var(--primary); color: #fff;
+      font-family: inherit; font-size: 17px; font-weight: 400; letter-spacing: -0.374px;
+      border-radius: var(--r-pill); border: none; cursor: pointer; text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s;
+    }
+    .btn-primary:active { transform: scale(0.94); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 22px; min-height: 44px;
+      background: transparent; color: var(--primary);
+      font-family: inherit; font-size: 17px; font-weight: 400; letter-spacing: -0.374px;
+      border-radius: var(--r-pill); border: 1px solid var(--primary);
+      cursor: pointer; text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s;
+    }
+    .btn-ghost:active { transform: scale(0.94); opacity: 0.75; }
+
+    .cta-row {
+      display: flex; flex-direction: column; gap: 12px;
+      width: 100%; max-width: 340px;
+    }
+    .cta-row .btn-primary,
+    .cta-row .btn-ghost { width: 100%; }
+
+    /* ─── TILE TYPE ───────────────────────────────────────────────── */
+    .tile-h2 {
+      font-size: 28px; font-weight: 600; line-height: 1.10;
+      color: var(--ink); margin-bottom: 10px;
+    }
+    .tile-h2-dark { color: var(--on-dark); }
+    .tile-lead {
+      font-size: 19px; font-weight: 400; line-height: 1.21; letter-spacing: 0.196px;
+      color: var(--ink-80); margin-bottom: 24px;
+    }
+    .tile-lead-dark { color: var(--muted-dark); }
+    .tile-body {
+      font-size: 17px; font-weight: 400; line-height: 1.47; letter-spacing: -0.374px;
+      color: var(--ink-80); max-width: 540px;
+    }
+    .tile-body-dark { color: var(--muted-dark); }
+    .text-link-dark {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: var(--primary-dark); font-size: 17px; text-decoration: none;
+      min-height: 44px; margin-top: 16px;
+    }
+
+    /* ─── CONTACT ROWS — spring-loaded ───────────────────────────── */
+    .contact-list {
+      width: 100%; max-width: 560px;
+      display: flex; flex-direction: column; gap: 2px; margin-top: 24px;
+    }
+    .contact-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; min-height: 64px;
+      background: var(--canvas); border: 1px solid var(--hairline);
+      border-radius: var(--r-lg); text-decoration: none; gap: 12px;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.12s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .contact-row:active { background: var(--parchment); transform: scale(0.94); }
+    .contact-row-left { display: flex; align-items: center; gap: 14px; }
+    .contact-icon {
+      width: 40px; height: 40px; border-radius: var(--r-sm);
+      background: var(--parchment); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: var(--ink);
+    }
+    .contact-label {
+      font-size: 13px; font-weight: 600; letter-spacing: -0.12px; color: var(--ink-48);
+    }
+    .contact-value {
+      font-size: 15px; font-weight: 400; letter-spacing: -0.374px; color: var(--ink);
+      margin-top: 2px;
+    }
+    .contact-chevron { font-size: 11px; color: var(--ink-48); flex-shrink: 0; }
+
+    /* ─── SOCIAL GRID — spring-loaded ────────────────────────────── */
+    .social-grid {
+      width: 100%; max-width: 400px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 10px; margin-top: 24px;
+    }
+    .social-chip {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; padding: 14px 6px; min-height: 72px;
+      background: rgba(255,255,255,0.06); border-radius: var(--r-lg);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 400;
+      letter-spacing: -0.12px; text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.12s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .social-chip i { font-size: 20px; color: rgba(255,255,255,0.85); }
+    .social-chip:active { background: rgba(255,255,255,0.14); transform: scale(0.94); }
+
+    /* ─── MAP ─────────────────────────────────────────────────────── */
+    .map-wrap {
+      width: 100%; max-width: 560px;
+      border-radius: var(--r-lg); overflow: hidden;
+      border: 1px solid var(--hairline); margin-top: 24px;
+    }
+    .map-wrap iframe {
+      display: block; width: 100%; height: 200px; border: 0;
+      filter: grayscale(100%) contrast(0.9) brightness(1.05);
+    }
+    .map-addr {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 16px; background: var(--canvas);
+    }
+    .map-addr i { color: var(--ink-48); font-size: 14px; margin-top: 3px; flex-shrink: 0; }
+    .map-addr-primary { font-size: 15px; font-weight: 400; letter-spacing: -0.374px; color: var(--ink); }
+    .map-addr-secondary { font-size: 13px; color: var(--ink-48); margin-top: 2px; }
+
+    /* ─── FOOTER ──────────────────────────────────────────────────── */
+    .footer {
+      background: var(--parchment);
+      padding: 40px 16px calc(40px + env(safe-area-inset-bottom));
+      position: relative; z-index: 9;
+    }
+    .footer-divider { height: 1px; background: var(--hairline); margin-bottom: 28px; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+    .footer-col-title {
+      font-size: 14px; font-weight: 600; letter-spacing: -0.224px;
+      color: var(--ink); margin-bottom: 8px;
+    }
+    .footer-link {
+      display: block; font-size: 15px; font-weight: 400;
+      line-height: 2.2; letter-spacing: -0.224px;
+      color: var(--ink-80); text-decoration: none;
+    }
+    .footer-link:active { color: var(--primary); }
+    .footer-legal { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--hairline); }
+    .footer-fine { font-size: 12px; letter-spacing: -0.12px; color: var(--ink-48); line-height: 1.5; }
+
+    /* ─── STICKY BAR ──────────────────────────────────────────────── */
+    .sticky-bar {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(245,245,247,0.88);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      z-index: 99;
+    }
+    .sticky-text { min-width: 0; }
+    .sticky-name {
+      font-size: 14px; font-weight: 600; letter-spacing: -0.224px; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sticky-role { font-size: 12px; letter-spacing: -0.12px; color: var(--ink-48); }
+    .sticky-bar .btn-primary { font-size: 15px; padding: 11px 18px; flex-shrink: 0; }
+
+    /* ─── TOAST ───────────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: calc(80px + env(safe-area-inset-bottom));
+      left: 50%; transform: translateX(-50%) translateY(8px);
+      background: var(--ink); color: #fff;
+      font-size: 14px; font-weight: 400; letter-spacing: -0.224px;
+      padding: 11px 20px; border-radius: var(--r-pill);
+      opacity: 0; pointer-events: none; white-space: nowrap; z-index: 200;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ─── ANIMATIONS ──────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fu { opacity: 0; animation: fadeUp 0.65s cubic-bezier(.22,.68,0,1.1) both; }
+    .d1{animation-delay:.05s} .d2{animation-delay:.15s} .d3{animation-delay:.25s}
+    .d4{animation-delay:.38s} .d5{animation-delay:.50s} .d6{animation-delay:.62s}
+
+    /* ─── CHATBOT FAB ─────────────────────────────────────────────── */
+    .chat-fab {
+      position: fixed;
+      right: 16px;
+      bottom: calc(76px + env(safe-area-inset-bottom));
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 20px rgba(0, 102, 204, 0.40);
+      z-index: 110;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.2s cubic-bezier(.22,.68,0,1.2), box-shadow 0.2s;
+    }
+    .chat-fab:active { transform: scale(0.92); }
+    .chat-fab.is-open { background: var(--ink); box-shadow: 0 4px 20px rgba(0,0,0,0.28); }
+    .chat-fab .fab-icon-open,
+    .chat-fab .fab-icon-close { transition: opacity 0.18s, transform 0.18s; position: absolute; }
+    .chat-fab .fab-icon-close { opacity: 0; transform: rotate(-45deg) scale(0.7); }
+    .chat-fab.is-open .fab-icon-open  { opacity: 0; transform: rotate(45deg) scale(0.7); }
+    .chat-fab.is-open .fab-icon-close { opacity: 1; transform: rotate(0deg) scale(1); }
+
+    .chat-badge {
+      position: absolute; top: -3px; right: -3px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #ff3b30; border: 2px solid #fff;
+      font-size: 9px; font-weight: 700; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .chat-badge.hidden { opacity: 0; transform: scale(0); }
+
+    /* ─── CHATBOT WINDOW — fluid blur + scale open ────────────────── */
+    .chat-window {
+      position: fixed;
+      right: 16px;
+      bottom: calc(140px + env(safe-area-inset-bottom));
+      width: calc(100vw - 32px);
+      max-width: 360px;
+      height: 500px;
+      max-height: calc(100vh - 200px);
+      background: var(--canvas);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-product), 0 0 0 1px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 109;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(40px) scale(0.9);
+      filter: blur(10px);
+      transform-origin: bottom right;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .chat-window.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    /* ─── DRAG HANDLE (mobile only) ───────────────────────────────── */
+    .chat-drag-handle {
+      display: none;
+      width: 36px; height: 4px;
+      background: rgba(0,0,0,0.18);
+      border-radius: 2px;
+      margin: 10px auto 0;
+      flex-shrink: 0;
+    }
+
+    .chat-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+    .chat-header-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; color: #fff; flex-shrink: 0;
+    }
+    .chat-header-info { flex: 1; min-width: 0; }
+    .chat-header-name {
+      font-size: 14px; font-weight: 600; color: #fff;
+      letter-spacing: -0.224px; line-height: 1.2;
+    }
+    .chat-header-status {
+      font-size: 11px; color: rgba(255,255,255,0.72);
+      display: flex; align-items: center; gap: 4px; margin-top: 2px;
+    }
+    .chat-header-status::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #34c759; flex-shrink: 0;
+    }
+    .chat-header-close {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.15); border: none; border-radius: 50%;
+      color: #fff; font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.12s;
+    }
+    .chat-header-close:active { background: rgba(255,255,255,0.28); }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+      background: var(--parchment);
+    }
+    .chat-messages::-webkit-scrollbar { width: 0; }
+
+    .chat-bubble {
+      max-width: 82%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.45;
+      letter-spacing: -0.12px;
+      animation: bubbleIn 0.28s cubic-bezier(.22,.68,0,1.2) both;
+    }
+    @keyframes bubbleIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .chat-bubble-bot {
+      background: var(--canvas);
+      color: var(--ink);
+      border-bottom-left-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      align-self: flex-start;
+    }
+
+    .chat-bubble-user {
+      background: var(--primary);
+      color: #fff;
+      border-bottom-right-radius: 6px;
+      align-self: flex-end;
+    }
+
+    .chat-typing {
+      display: flex; align-items: center; gap: 4px;
+      padding: 10px 14px;
+      background: var(--canvas);
+      border-radius: 18px; border-bottom-left-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      align-self: flex-start;
+      animation: bubbleIn 0.28s cubic-bezier(.22,.68,0,1.2) both;
+    }
+    .chat-typing span {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--ink-48);
+      animation: typingDot 1.2s infinite ease-in-out;
+    }
+    .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+    .chat-typing span:nth-child(3) { animation-delay: 0.30s; }
+    @keyframes typingDot {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    .chat-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 2px 0 4px;
+      align-self: flex-start;
+      max-width: 100%;
+      animation: bubbleIn 0.32s cubic-bezier(.22,.68,0,1.2) both;
+      animation-delay: 0.15s;
+    }
+    .chat-chip {
+      padding: 7px 13px;
+      border-radius: var(--r-pill);
+      border: 1.5px solid var(--primary);
+      background: transparent;
+      color: var(--primary);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.12s, color 0.12s, transform 0.12s;
+    }
+    .chat-chip:active { transform: scale(0.95); }
+    .chat-chip:hover  { background: var(--primary); color: #fff; }
+
+    .chat-footer {
+      flex-shrink: 0;
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+
+    .chat-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+    .chat-input {
+      flex: 1;
+      padding: 9px 14px;
+      border: 1.5px solid var(--hairline);
+      border-radius: var(--r-pill);
+      background: var(--parchment);
+      font-family: inherit;
+      font-size: 14px;
+      letter-spacing: -0.12px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
+      min-width: 0;
+    }
+    .chat-input:focus { border-color: var(--primary); }
+    .chat-input::placeholder { color: var(--ink-48); }
+    .chat-send {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.12s, opacity 0.12s;
+    }
+    .chat-send:active { transform: scale(0.92); }
+    .chat-send:disabled { opacity: 0.4; cursor: default; }
+
+    .chat-call-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px 10px;
+      font-size: 12px;
+      color: var(--ink-48);
+      letter-spacing: -0.12px;
+      text-decoration: none;
+      border-top: 1px solid var(--hairline);
+      transition: color 0.12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .chat-call-fallback i { font-size: 11px; }
+    .chat-call-fallback:hover { color: var(--primary); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SCALE UP — mobile-first breakpoints
+    ═══════════════════════════════════════════════════════════════ */
+    @media (min-width: 480px) {
+      .tile { padding: 56px 22px; }
+      .hero-h1 { font-size: 40px; }
+      .tile-h2 { font-size: 34px; }
+      .cta-row { flex-direction: row; width: auto; max-width: none; }
+      .cta-row .btn-primary, .cta-row .btn-ghost { width: auto; }
+    }
+    @media (min-width: 640px) {
+      .tile { padding: 64px 28px; }
+      .sub-nav { padding: 0 22px; }
+      .sub-nav-title { font-size: 21px; }
+      .sub-nav-links { display: flex; }
+      .hero-h1  { font-size: 48px; }
+      .hero-sub { font-size: 21px; }
+      .tile-h2  { font-size: 40px; }
+      .tile-lead { font-size: 21px; }
+      .avatar { width: 140px; height: 140px; }
+      .avatar-mono { font-size: 48px; }
+      .social-grid { max-width: 480px; gap: 12px; }
+      .map-wrap iframe { height: 220px; }
+    }
+    @media (min-width: 834px) {
+      .global-nav, .sub-nav { padding: 0 28px; }
+      .tile { padding: 80px 32px; }
+      .hero-h1 { font-size: 56px; }
+      .tile-h2 { font-size: 48px; }
+      .avatar { width: 160px; height: 160px; }
+      .avatar-mono { font-size: 54px; }
+      .social-grid { max-width: 540px; gap: 14px; }
+      .map-wrap iframe { height: 240px; }
+      .footer-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (min-width: 1068px) {
+      .global-nav, .sub-nav { padding: 0 48px; }
+      .contact-list {
+        display: grid; grid-template-columns: 1fr 1fr;
+        max-width: 720px; gap: 10px;
+      }
+    }
+
+    /* ─── NATIVE iOS BOTTOM SHEET (mobile only) ───────────────────── */
+    @media (max-width: 639px) {
+      .chat-drag-handle {
+        display: block;
+      }
+      .chat-window {
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100vw;
+        max-width: 100vw;
+        height: 75vh;
+        max-height: 75vh;
+        border-radius: 24px 24px 0 0;
+        transform-origin: bottom center;
+        /* Pure slide-up — no blur on mobile for perf */
+        transform: translateY(100%);
+        filter: none;
+        opacity: 1;
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .chat-window.is-open {
+        transform: translateY(0);
+        filter: none;
+        opacity: 1;
+      }
+      .chat-call-fallback {
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- GLOBAL NAV -->
+  <nav class="global-nav" aria-label="Global">
+    <a href="#" class="nav-logo" aria-label="Home"><i class="fa-brands fa-apple"></i></a>
+    <div class="nav-actions">
+      <a href="https://axiomventures.com" target="_blank" rel="noopener" aria-label="Website">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+      <a href="mailto:hello@axiomventures.com" aria-label="Email">
+        <i class="fa-regular fa-envelope"></i>
+      </a>
+    </div>
+  </nav>
+
+  <!-- SUB-NAV -->
+  <nav class="sub-nav" aria-label="Section">
+    <span class="sub-nav-title">Alexandra Morgan</span>
+    <div class="sub-nav-links">
+      <a href="#contact"  class="sub-nav-link">Contact</a>
+      <a href="#social"   class="sub-nav-link">Connect</a>
+      <a href="#location" class="sub-nav-link">Location</a>
+    </div>
+    <div class="sub-nav-actions">
+      <button class="sub-nav-share" onclick="shareCard()" aria-label="Share">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </button>
+      <button class="sub-nav-save" onclick="downloadVCard()">
+        <i class="fa-solid fa-address-book" style="font-size:12px;"></i> Save
+      </button>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- TILE 1 — HERO -->
+    <section class="tile tile-light" style="padding-top:40px; padding-bottom:56px;">
+      <div class="avatar fu d1" id="heroAvatar">
+        <span class="avatar-mono">AM</span>
+      </div>
+      <p class="hero-eyebrow fu d2">Private Equity &amp; Strategy</p>
+      <h1 class="hero-h1 fu d3">Alexandra Morgan</h1>
+      <p class="hero-sub fu d4" style="margin-bottom:28px;">Managing Director, Axiom Ventures.</p>
+      <div class="cta-row fu d5">
+        <button class="btn-primary" onclick="downloadVCard()">
+          <i class="fa-solid fa-address-book" style="font-size:14px;"></i>
+          Save to Contacts
+        </button>
+        <a href="https://wa.me/919999999999?text=Hi%2C%20reaching%20out%20from%20your%20digital%20card." target="_blank" rel="noopener" class="btn-ghost">
+          <i class="fa-brands fa-whatsapp" style="font-size:16px;"></i>
+          Message
+        </a>
+      </div>
+    </section>
+
+    <!-- TILE 2 — ABOUT -->
+    <section class="tile tile-dark">
+      <h2 class="tile-h2 tile-h2-dark">Investments.<br>Strategy.<br>Impact.</h2>
+      <p class="tile-lead tile-lead-dark" style="margin-top:12px;">
+        Two decades building the future of private equity.
+      </p>
+      <p class="tile-body tile-body-dark">
+        Alexandra leads Axiom Ventures' portfolio strategy across emerging markets - focused on high-conviction investments at the intersection of technology and enterprise transformation.
+      </p>
+    </section>
+
+    <!-- TILE 3 — CONTACT -->
+    <section class="tile tile-parchment" id="contact">
+      <h2 class="tile-h2">Get in touch.</h2>
+      <p class="tile-lead" style="margin-bottom:0;">Every conversation starts somewhere.</p>
+      <div class="contact-list">
+        <a href="tel:+919999999999" class="contact-row">
+          <div class="contact-row-left">
+            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">+91 99999 99999</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-chevron"></i>
+        </a>
+        <a href="mailto:hello@axiomventures.com" class="contact-row">
+          <div class="contact-row-left">
+            <div class="contact-icon"><i class="fa-regular fa-envelope"></i></div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">hello@axiomventures.com</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-chevron"></i>
+        </a>
+        <a href="https://wa.me/919999999999" target="_blank" rel="noopener" class="contact-row">
+          <div class="contact-row-left">
+            <div class="contact-icon"><i class="fa-brands fa-whatsapp" style="font-size:18px;"></i></div>
+            <div>
+              <div class="contact-label">WhatsApp</div>
+              <div class="contact-value">+91 99999 99999</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-chevron"></i>
+        </a>
+        <a href="https://axiomventures.com" target="_blank" rel="noopener" class="contact-row">
+          <div class="contact-row-left">
+            <div class="contact-icon"><i class="fa-solid fa-globe"></i></div>
+            <div>
+              <div class="contact-label">Website</div>
+              <div class="contact-value">axiomventures.com</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-chevron"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- TILE 4 — SOCIAL -->
+    <section class="tile tile-dark-2" id="social">
+      <h2 class="tile-h2 tile-h2-dark">Connect.</h2>
+      <p class="tile-lead tile-lead-dark" style="margin-bottom:0;">Find me across the web.</p>
+      <div class="social-grid">
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-brands fa-linkedin-in"></i><span>LinkedIn</span>
+        </a>
+        <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-brands fa-instagram"></i><span>Instagram</span>
+        </a>
+        <a href="https://x.com/yourhandle" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-brands fa-x-twitter"></i><span>X</span>
+        </a>
+        <a href="https://youtube.com/@yourchannel" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-brands fa-youtube"></i><span>YouTube</span>
+        </a>
+        <a href="https://facebook.com/yourpage" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-brands fa-facebook-f"></i><span>Facebook</span>
+        </a>
+        <a href="https://t.me/yourhandle" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-brands fa-telegram"></i><span>Telegram</span>
+        </a>
+        <a href="https://calendly.com/yourlink" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-regular fa-calendar-check"></i><span>Schedule</span>
+        </a>
+        <a href="https://axiomventures.com" target="_blank" rel="noopener" class="social-chip">
+          <i class="fa-solid fa-globe"></i><span>Web</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- TILE 5 — LOCATION -->
+    <section class="tile tile-light" id="location">
+      <h2 class="tile-h2">Where to find us.</h2>
+      <p class="tile-lead" style="margin-bottom:0;">Our doors are always open.</p>
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.5073568!2d82.97326!3d25.31752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e2db76febcf4d%3A0x98a5c6c2ab72e9f0!2sVaranasi%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Office location"
+        ></iframe>
+        <div class="map-addr">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>
+            <p class="map-addr-primary">12 Meridian Tower, Floor 9</p>
+            <p class="map-addr-secondary">Connaught Place, New Delhi - 110001, India</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-divider"></div>
+      <div class="footer-grid">
+        <div>
+          <p class="footer-col-title">Axiom Ventures</p>
+          <a href="https://axiomventures.com" target="_blank" rel="noopener" class="footer-link">Website</a>
+          <a href="mailto:hello@axiomventures.com" class="footer-link">Email us</a>
+          <a href="tel:+919999999999" class="footer-link">Call us</a>
+        </div>
+        <div>
+          <p class="footer-col-title">Social</p>
+          <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
+          <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+          <a href="https://x.com/yourhandle" target="_blank" rel="noopener" class="footer-link">X / Twitter</a>
+        </div>
+        <div>
+          <p class="footer-col-title">Connect</p>
+          <a href="https://wa.me/919999999999" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+          <a href="https://calendly.com/yourlink" target="_blank" rel="noopener" class="footer-link">Schedule a call</a>
+          <a href="https://t.me/yourhandle" target="_blank" rel="noopener" class="footer-link">Telegram</a>
+        </div>
+        <div>
+          <p class="footer-col-title">Location</p>
+          <a href="#location" class="footer-link">New Delhi office</a>
+          <a href="https://www.google.com/maps?q=Connaught+Place+New+Delhi" target="_blank" rel="noopener" class="footer-link">Get directions</a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-fine">Copyright &copy; 2025 Axiom Ventures. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </div><!-- /page -->
+
+  <!-- STICKY BAR -->
+  <div class="sticky-bar" role="complementary" aria-label="Quick save">
+    <div class="sticky-text">
+      <div class="sticky-name">Alexandra Morgan</div>
+      <div class="sticky-role">Managing Director · Axiom Ventures</div>
+    </div>
+    <button class="btn-primary" onclick="downloadVCard()">
+      <i class="fa-solid fa-address-book" style="font-size:13px;"></i>
+      Save Contact
+    </button>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite">Contact saved to your device</div>
+
+  <!-- CHATBOT FAB -->
+  <button class="chat-fab" id="chatFab" aria-label="Open chat" onclick="toggleChat()">
+    <i class="fa-solid fa-message fab-icon-open"></i>
+    <i class="fa-solid fa-xmark fab-icon-close"></i>
+    <span class="chat-badge" id="chatBadge">1</span>
+  </button>
+
+  <!-- CHATBOT WINDOW -->
+  <div class="chat-window" id="chatWindow" role="dialog" aria-label="Support chat">
+
+    <!-- Drag handle pill — visible on mobile only -->
+    <div class="chat-drag-handle" aria-hidden="true"></div>
+
+    <div class="chat-header">
+      <div class="chat-header-avatar">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Axiom Assistant</div>
+        <div class="chat-header-status">Online now</div>
+      </div>
+      <button class="chat-header-close" aria-label="Close chat" onclick="toggleChat()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-footer">
+      <div class="chat-input-row" id="chatInputRow" style="display:none;">
+        <input
+          type="text"
+          class="chat-input"
+          id="chatInput"
+          placeholder="Type your message…"
+          maxlength="300"
+          onkeydown="if(event.key==='Enter') sendCustomMessage()"
+          aria-label="Your message"
+        />
+        <button class="chat-send" id="chatSendBtn" onclick="sendCustomMessage()" aria-label="Send">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+      <a href="tel:+919999999999" class="chat-call-fallback">
+        <i class="fa-solid fa-phone"></i>
+        Query not resolved? Call the business
+      </a>
+    </div>
+  </div>
+
+  <script>
+    /* ══════════════════════════════════════════════════════════════
+       vCard
+    ══════════════════════════════════════════════════════════════ */
+    const VCARD = {
+      fullName:     "Alexandra Morgan",
+      nameParts:    "Morgan;Alexandra;;;",
+      organisation: "Axiom Ventures",
+      title:        "Managing Director",
+      phone:        "+91 99999 99999",
+      email:        "hello@axiomventures.com",
+      website:      "https://axiomventures.com",
+      address:      ";;12 Meridian Tower Floor 9;New Delhi;Delhi;110001;India",
+      note:         "Private Equity | Strategy | Innovation."
+    };
+
+    function downloadVCard() {
+      if (navigator.vibrate) navigator.vibrate(50);
+      const { fullName, nameParts, organisation, title, phone, email, website, address, note } = VCARD;
+      const vcf = [
+        "BEGIN:VCARD", "VERSION:3.0",
+        `FN:${fullName}`, `N:${nameParts}`,
+        `ORG:${organisation}`, `TITLE:${title}`,
+        `TEL;TYPE=CELL:${phone}`, `EMAIL;TYPE=WORK:${email}`,
+        `URL:${website}`, `ADR;TYPE=WORK:${address}`,
+        note ? `NOTE:${note}` : "", "END:VCARD"
+      ].filter(Boolean).join("\r\n");
+      const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      a.href = url; a.download = "alexandra-morgan.vcf";
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
+      showToast("Contact saved to your device");
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      if (msg) t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3000);
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       Share API
+    ══════════════════════════════════════════════════════════════ */
+    async function shareCard() {
+      const shareData = {
+        title: "Alexandra Morgan - Axiom Ventures",
+        text:  "Managing Director at Axiom Ventures. Private Equity & Strategy.",
+        url:   window.location.href
+      };
+      if (navigator.share) {
+        try { await navigator.share(shareData); } catch (err) {}
+      } else {
+        try { await navigator.clipboard.writeText(window.location.href); } catch (err) {}
+        showToast("Link copied to clipboard");
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       3D Tilt Effect on Avatar (desktop mouse)
+    ══════════════════════════════════════════════════════════════ */
+    (function initAvatarTilt() {
+      const avatar = document.getElementById("heroAvatar");
+      if (!avatar) return;
+      const MAX_TILT = 15;
+
+      avatar.addEventListener("mousemove", (e) => {
+        const rect   = avatar.getBoundingClientRect();
+        const cx     = rect.left + rect.width  / 2;
+        const cy     = rect.top  + rect.height / 2;
+        const dx     = (e.clientX - cx) / (rect.width  / 2);
+        const dy     = (e.clientY - cy) / (rect.height / 2);
+        const rotateY =  dx * MAX_TILT;
+        const rotateX = -dy * MAX_TILT;
+        avatar.style.transition = "transform 0.08s ease-out, box-shadow 0.08s ease-out";
+        avatar.style.transform  = `perspective(400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.06)`;
+        avatar.style.boxShadow  = `${-rotateY * 0.8}px ${rotateX * 0.8}px 32px rgba(0,0,0,0.28)`;
+      });
+
+      avatar.addEventListener("mouseleave", () => {
+        avatar.style.transition = "transform 0.45s cubic-bezier(.22,.68,0,1.1), box-shadow 0.45s cubic-bezier(.22,.68,0,1.1)";
+        avatar.style.transform  = "perspective(400px) rotateX(0deg) rotateY(0deg) scale(1)";
+        avatar.style.boxShadow  = "";
+      });
+    })();
+
+    /* ══════════════════════════════════════════════════════════════
+       Device Gyroscope — reactive avatar shadow (mobile)
+    ══════════════════════════════════════════════════════════════ */
+    (function initGyroscope() {
+      const avatar = document.getElementById("heroAvatar");
+      if (!avatar) return;
+
+      function handleOrientation(e) {
+        /* beta  = front/back tilt (-180 to 180), gamma = left/right (-90 to 90) */
+        const beta  = Math.min(Math.max(e.beta  ?? 0, -45), 45);
+        const gamma = Math.min(Math.max(e.gamma ?? 0, -45), 45);
+
+        /* Map tilt to shadow offset, max 15px spread */
+        const shadowX = (gamma / 45) * 15;
+        const shadowY = (beta  / 45) * 8;
+        const spread  = Math.abs(shadowX * 0.6) + Math.abs(shadowY * 0.6) + 10;
+
+        avatar.style.transition = "box-shadow 0.1s ease-out";
+        avatar.style.boxShadow  =
+          `${shadowX}px ${shadowY}px ${spread}px rgba(0,0,0,0.30)`;
+      }
+
+      if (typeof DeviceOrientationEvent !== "undefined") {
+        /* iOS 13+ requires explicit permission via user gesture */
+        if (typeof DeviceOrientationEvent.requestPermission === "function") {
+          document.addEventListener("touchstart", function requestOnce() {
+            DeviceOrientationEvent.requestPermission()
+              .then(state => {
+                if (state === "granted") {
+                  window.addEventListener("deviceorientation", handleOrientation, true);
+                }
+              })
+              .catch(() => {});
+          }, { once: true });
+        } else {
+          /* Android + older iOS — no permission needed */
+          window.addEventListener("deviceorientation", handleOrientation, true);
+        }
+      }
+    })();
+
+    /* ══════════════════════════════════════════════════════════════
+       Scroll-Triggered Intersection Observer
+    ══════════════════════════════════════════════════════════════ */
+    (function initScrollAnimations() {
+      const tiles = document.querySelectorAll(".tile:not(:first-child)");
+      tiles.forEach(tile => tile.classList.add("tile-scroll-hidden"));
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("tile-scroll-hidden");
+            entry.target.classList.add("tile-scroll-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      tiles.forEach(tile => observer.observe(tile));
+    })();
+
+    /* ══════════════════════════════════════════════════════════════
+       Chatbot Logic
+    ══════════════════════════════════════════════════════════════ */
+    const WHATSAPP_NUMBER = "919999999999";
+
+    const PRESETS = [
+      {
+        label: "What services do you offer?",
+        answer: "Axiom Ventures provides end-to-end private equity advisory, growth-stage investments, strategic portfolio management, and board-level consulting - primarily in technology, fintech, and enterprise transformation across emerging markets."
+      },
+      {
+        label: "What is your investment focus?",
+        answer: "We focus on high-conviction, mid-market opportunities at the intersection of technology and enterprise change. Our target ticket size ranges from Rs.10Cr to Rs.200Cr, with a preference for sectors such as SaaS, climate tech, and healthcare innovation."
+      },
+      {
+        label: "How can I schedule a meeting?",
+        answer: "You can book a call directly via Calendly - tap the Schedule link in the Connect section above, or reach out on WhatsApp and Alexandra's team will arrange a time that works for you."
+      },
+      {
+        label: "I have another question",
+        answer: null
+      }
+    ];
+
+    let chatInitialised = false;
+    let chatOpen = false;
+
+    function toggleChat() {
+      if (navigator.vibrate) navigator.vibrate(50);
+      chatOpen = !chatOpen;
+      const win   = document.getElementById("chatWindow");
+      const fab   = document.getElementById("chatFab");
+      const badge = document.getElementById("chatBadge");
+      win.classList.toggle("is-open", chatOpen);
+      fab.classList.toggle("is-open", chatOpen);
+      if (chatOpen) {
+        badge.classList.add("hidden");
+        if (!chatInitialised) {
+          chatInitialised = true;
+          initChat();
+        }
+      }
+    }
+
+    function initChat() {
+      setTimeout(() => {
+        appendBotBubble("👋 Hi there! I'm the Axiom Ventures assistant. How can I help you today?");
+        setTimeout(showPresets, 600);
+      }, 300);
+    }
+
+    function showPresets() {
+      const msgs = document.getElementById("chatMessages");
+      const wrap = document.createElement("div");
+      wrap.className = "chat-chips";
+      wrap.id = "chatPresetChips";
+      PRESETS.forEach(preset => {
+        const btn = document.createElement("button");
+        btn.className = "chat-chip";
+        btn.textContent = preset.label;
+        btn.onclick = () => handlePreset(preset);
+        wrap.appendChild(btn);
+      });
+      msgs.appendChild(wrap);
+      scrollChat();
+    }
+
+    function handlePreset(preset) {
+      const chips = document.getElementById("chatPresetChips");
+      if (chips) chips.remove();
+      appendUserBubble(preset.label);
+      if (preset.answer === null) {
+        setTimeout(() => {
+          appendBotBubble("Of course! Please type your question below and I'll forward it to Alexandra via WhatsApp.");
+          showInputRow();
+        }, 500);
+      } else {
+        const typingEl = appendTyping();
+        setTimeout(() => {
+          typingEl.remove();
+          appendBotBubble(preset.answer);
+          setTimeout(() => {
+            appendBotBubble("Is there anything else I can help with?");
+            setTimeout(showPresets, 400);
+          }, 800);
+        }, 1000);
+      }
+    }
+
+    function sendCustomMessage() {
+      if (navigator.vibrate) navigator.vibrate(50);
+      const input = document.getElementById("chatInput");
+      const msg   = input.value.trim();
+      if (!msg) return;
+
+      if (/magic/i.test(msg)) {
+        input.value = "";
+        appendUserBubble(msg);
+        const typingEl = appendTyping();
+        setTimeout(() => {
+          typingEl.remove();
+          appendBotBubble("Did someone say magic? ✨");
+          document.body.style.transition = "filter 0.5s ease";
+          document.body.style.filter = "hue-rotate(90deg)";
+          setTimeout(() => {
+            document.body.style.filter = "hue-rotate(0deg)";
+            setTimeout(() => { document.body.style.filter = ""; }, 600);
+          }, 3000);
+        }, 700);
+        return;
+      }
+
+      input.value      = "";
+      input.disabled   = true;
+      document.getElementById("chatSendBtn").disabled = true;
+      appendUserBubble(msg);
+      hideInputRow();
+      const typingEl = appendTyping();
+      setTimeout(() => {
+        typingEl.remove();
+        appendBotBubble("Got it! I'm redirecting you to WhatsApp so Alexandra's team can respond personally. 📲");
+        setTimeout(() => {
+          const encoded = encodeURIComponent(msg);
+          window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, "_blank", "noopener");
+        }, 1200);
+      }, 900);
+    }
+
+    function appendBotBubble(text) {
+      const msgs = document.getElementById("chatMessages");
+      const el   = document.createElement("div");
+      el.className   = "chat-bubble chat-bubble-bot";
+      el.textContent = text;
+      msgs.appendChild(el);
+      scrollChat();
+      return el;
+    }
+
+    function appendUserBubble(text) {
+      const msgs = document.getElementById("chatMessages");
+      const el   = document.createElement("div");
+      el.className   = "chat-bubble chat-bubble-user";
+      el.textContent = text;
+      msgs.appendChild(el);
+      scrollChat();
+      return el;
+    }
+
+    function appendTyping() {
+      const msgs = document.getElementById("chatMessages");
+      const el   = document.createElement("div");
+      el.className = "chat-typing";
+      el.innerHTML  = "<span></span><span></span><span></span>";
+      msgs.appendChild(el);
+      scrollChat();
+      return el;
+    }
+
+    function showInputRow() {
+      const row     = document.getElementById("chatInputRow");
+      const input   = document.getElementById("chatInput");
+      const sendBtn = document.getElementById("chatSendBtn");
+      row.style.display = "flex";
+      input.disabled    = false;
+      sendBtn.disabled  = false;
+      setTimeout(() => input.focus(), 100);
+      scrollChat();
+    }
+
+    function hideInputRow() {
+      document.getElementById("chatInputRow").style.display = "none";
+    }
+
+    function scrollChat() {
+      const msgs = document.getElementById("chatMessages");
+      setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 50);
+    }
+  </script>
+</body>
+</html>
