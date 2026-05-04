@@ -41,25 +41,9 @@
       -webkit-font-smoothing: antialiased; overflow-x: hidden;
     }
 
-    /* ─── GLOBAL NAV ──────────────────────────────────────────────── */
-    .global-nav {
-      position: fixed; inset: 0 0 auto;
-      height: 44px; background: var(--nav-black);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 max(16px, env(safe-area-inset-left));
-      z-index: 100;
-    }
-    .nav-logo { color: rgba(255,255,255,0.85); font-size: 20px; line-height: 1; text-decoration: none; }
-    .nav-actions { display: flex; align-items: center; gap: 4px; }
-    .nav-actions a {
-      color: rgba(255,255,255,0.75); font-size: 14px; text-decoration: none;
-      display: flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px;
-    }
-
     /* ─── SUB-NAV ─────────────────────────────────────────────────── */
     .sub-nav {
-      position: fixed; top: 44px; left: 0; right: 0; height: 52px;
+      position: fixed; top: 0; left: 0; right: 0; height: 52px;
       background: rgba(245,245,247,0.82);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -99,7 +83,7 @@
     .sub-nav-save:active { transform: scale(0.95); }
 
     /* ─── PAGE OFFSET ─────────────────────────────────────────────── */
-    .page { padding-top: 96px; }
+    .page { padding-top: 52px; }
 
     /* ─── TILES ───────────────────────────────────────────────────── */
     .tile {
@@ -143,7 +127,7 @@
     .avatar-back {
       transform: rotateY(180deg);
       background: #fff;
-      border-radius: 50%;
+      border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
       box-shadow: var(--shadow-product);
       overflow: hidden;
@@ -581,19 +565,6 @@
 
 <body>
 
-  <!-- GLOBAL NAV -->
-  <nav class="global-nav" aria-label="Global">
-    <a href="#" class="nav-logo" aria-label="Home"><i class="fa-brands fa-apple"></i></a>
-    <div class="nav-actions">
-      <a href="https://axiomventures.com" target="_blank" rel="noopener" aria-label="Website">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </a>
-      <a href="mailto:hello@axiomventures.com" aria-label="Email">
-        <i class="fa-regular fa-envelope"></i>
-      </a>
-    </div>
-  </nav>
-
   <!-- SUB-NAV -->
   <nav class="sub-nav" aria-label="Section">
     <span class="sub-nav-title">Alexandra Morgan</span>
@@ -614,7 +585,7 @@
 
   <div class="page">
 
-    <!-- TILE 1 — HERO -->
+    <!-- TILE 1   HERO -->
     <section class="tile tile-light" style="padding-top:40px; padding-bottom:56px;">
 
       <!-- QR FLIP AVATAR -->
@@ -627,7 +598,7 @@
           <!-- BACK (QR) -->
           <div class="avatar avatar-back" id="avatarBack">
             <img id="qrImg" src="" alt="QR Code"
-              style="width:88%;height:88%;border-radius:6px;display:block;object-fit:contain;" />
+              style="width:100%;height:100%;display:block;object-fit:contain;" />
           </div>
         </div>
       </div>
@@ -649,18 +620,18 @@
       </div>
     </section>
 
-    <!-- TILE 2 — ABOUT -->
+    <!-- TILE 2   ABOUT -->
     <section class="tile tile-dark">
       <h2 class="tile-h2 tile-h2-dark">Investments.<br>Strategy.<br>Impact.</h2>
       <p class="tile-lead tile-lead-dark" style="margin-top:12px;">
         Two decades building the future of private equity.
       </p>
       <p class="tile-body tile-body-dark">
-        Alexandra leads Axiom Ventures' portfolio strategy across emerging markets — focused on high-conviction investments at the intersection of technology and enterprise transformation.
+        Alexandra leads Axiom Ventures' portfolio strategy across emerging markets   focused on high-conviction investments at the intersection of technology and enterprise transformation.
       </p>
     </section>
 
-    <!-- TILE 3 — CONTACT -->
+    <!-- TILE 3   CONTACT -->
     <section class="tile tile-parchment" id="contact">
       <h2 class="tile-h2">Get in touch.</h2>
       <p class="tile-lead" style="margin-bottom:0;">Every conversation starts somewhere.</p>
@@ -708,7 +679,7 @@
       </div>
     </section>
 
-    <!-- TILE 4 — SOCIAL -->
+    <!-- TILE 4   SOCIAL -->
     <section class="tile tile-dark-2" id="social">
       <h2 class="tile-h2 tile-h2-dark">Connect.</h2>
       <p class="tile-lead tile-lead-dark" style="margin-bottom:0;">Find me across the web.</p>
@@ -740,7 +711,7 @@
       </div>
     </section>
 
-    <!-- TILE 5 — LOCATION -->
+    <!-- TILE 5   LOCATION -->
     <section class="tile tile-light" id="location">
       <h2 class="tile-h2">Where to find us.</h2>
       <p class="tile-lead" style="margin-bottom:0;">Our doors are always open.</p>
@@ -908,7 +879,7 @@
     }
 
     /* ══════════════════════════════════════════════════════════════
-       QR FLIP — double-tap / double-click avatar
+       QR FLIP   double-tap / double-click avatar
     ══════════════════════════════════════════════════════════════ */
     (function initAvatarQrFlip() {
       const wrap   = document.getElementById("avatarFlipWrap");
@@ -933,10 +904,10 @@
         if (navigator.vibrate) navigator.vibrate(isFlipped ? [25, 15, 25] : 20);
       }
 
-      /* Desktop — double-click */
+      /* Desktop   double-click */
       wrap.addEventListener("dblclick", flip);
 
-      /* Mobile — double-tap */
+      /* Mobile   double-tap */
       wrap.addEventListener("touchend", (e) => {
         const now = Date.now();
         if (now - lastTap < 300) {
@@ -1003,7 +974,7 @@
     const PRESETS = [
       {
         label: "What services do you offer?",
-        answer: "Axiom Ventures provides end-to-end private equity advisory, growth-stage investments, strategic portfolio management, and board-level consulting — primarily in technology, fintech, and enterprise transformation across emerging markets."
+        answer: "Axiom Ventures provides end-to-end private equity advisory, growth-stage investments, strategic portfolio management, and board-level consulting   primarily in technology, fintech, and enterprise transformation across emerging markets."
       },
       {
         label: "What is your investment focus?",
@@ -1011,7 +982,7 @@
       },
       {
         label: "How can I schedule a meeting?",
-        answer: "You can book a call directly via Calendly — tap the Schedule link in the Connect section above, or reach out on WhatsApp and Alexandra's team will arrange a time that works for you."
+        answer: "You can book a call directly via Calendly   tap the Schedule link in the Connect section above, or reach out on WhatsApp and Alexandra's team will arrange a time that works for you."
       },
       { label: "I have another question", answer: null }
     ];
