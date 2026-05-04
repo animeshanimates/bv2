@@ -106,7 +106,7 @@
 
     /* ─── QR FLIP AVATAR ──────────────────────────────────────────── */
     .avatar-flip-wrap {
-      width: 120px; height: 120px;
+      width: 140px; height: 160px;
       perspective: 600px;
       margin-bottom: 24px;
       flex-shrink: 0;
@@ -127,10 +127,13 @@
     .avatar-back {
       transform: rotateY(180deg);
       background: #fff;
-      border-radius: 16px;
+      border-radius: 24px !important;
+      overflow: visible !important;
       display: flex; align-items: center; justify-content: center;
       box-shadow: var(--shadow-product);
-      overflow: hidden;
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     /* ─── AVATAR ──────────────────────────────────────────────────── */
@@ -596,9 +599,12 @@
             <span class="avatar-mono">AM</span>
           </div>
           <!-- BACK (QR) -->
-          <div class="avatar avatar-back" id="avatarBack">
+          <div class="avatar-back" id="avatarBack">
+            <div style="position:absolute;top:8px;right:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;letter-spacing:0.5px;padding:4px 8px;border-radius:999px;z-index:2;line-height:1.2;">QR</div>
+            <div style="font-size:10px;font-weight:600;color:var(--ink-48);letter-spacing:0.5px;position:absolute;top:14px;left:0;right:0;text-align:center;">QR Code</div>
             <img id="qrImg" src="" alt="QR Code"
-              style="width:100%;height:100%;display:block;object-fit:contain;" />
+              style="width:70%;height:70%;display:block;object-fit:contain;margin:auto;" />
+            <div style="font-size:9px;font-weight:700;color:var(--ink-48);letter-spacing:1.5px;position:absolute;bottom:12px;left:0;right:0;text-align:center;">SCAN TO CONNECT</div>
           </div>
         </div>
       </div>
